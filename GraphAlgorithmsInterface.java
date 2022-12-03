@@ -1,4 +1,4 @@
-public interface GraphAlgorithmsInterface {
+public interface GraphAlgorithmsInterface<T> {
     public QueueInterface<T> getBreadthFirstTraversal(T origin);
 
     public QueueInterface<T> getDepthFirstTraversal(T origin);
