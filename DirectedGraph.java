@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.Stack;
+import java.util.Queue;
 
 public class DirectedGraph<T> implements GraphInterface<T> {
     private DictionaryInterface<T, VertexInterface<T>> vertices;
