@@ -1,6 +1,16 @@
-public interface LinkedListWithIterator extends ListInterface<T>, Iterable<T>
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedListWithIterator<T> implements ListWithIteratorInterface<T>
 {
-    public Iterator<T> getIterator();    
+    private Node firstNode;
+    private int numberOfEntries;
+
+    public LinkedListWithIterator()
+    {
+        initializeDataFields();
+    }
+    
 }
 
 // pg 517

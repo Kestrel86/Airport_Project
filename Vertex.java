@@ -1,13 +1,13 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Vertex implements VertexInterface<T>
+public class Vertex<T> implements VertexInterface<T>
 {
     private T label;
-    private ListWithIteratorInterface<Edge> edgeList;
-    private boolean visited;
-    private VertexInterface<T> previousVertex;
-    private double cost;
+    private ListWithIteratorInterface<Edge> edgeList; //Edges to neighbors
+    private boolean visited; //True if visited
+    private VertexInterface<T> previousVertex; //On path to this vertex
+    private double cost; //Of path to this vertex
 
     public Vertex(T vertexLabel)
     {
@@ -20,17 +20,29 @@ public class Vertex implements VertexInterface<T>
 
     protected class Edge
     {
-        private VertexInterface<T> vertex;
+        private VertexInterface<T> vertex; //Vertex at end of edge
         private double weight;
+
+        protected Edge(VertexInterface<T> endVertex, double edgeWeight)
+        {
+            vertex = endVertex;
+            weight = edgeWeight;
+        }
 
         protected Edge(VertexInterface<T> endVertex)
         {
             vertex = endVertex;
             weight = 0;
         }
+
+        protected VertexInterface<T> getEndVertex()
+        {
+            return vertex;
+        }
+
         protected double getWeight()
         {
-            return weight();
+            return weight;
         }
     }
 
@@ -89,7 +101,8 @@ public class Vertex implements VertexInterface<T>
         if((other == null) || (getClass() != other.getClass()))
             result = false;
         else 
-        {
+        {   //The case is safe within this else clause
+            @SuppressWarnings("Unchecked")
             Vertex<T> otherVertex = (Vertex<T>)other;
             result = label.equals(otherVertex.label);
         }

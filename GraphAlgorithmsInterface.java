@@ -7,5 +7,7 @@ public interface GraphAlgorithmsInterface<T> {
 
     public int getShortestPath(T begin, T end, StackInterface<T> path);
 
-    public double getCheapestPath(T begin, T end, StackInterface<T> path);
+    public double getCheapestPath(T begin, T end, StackInterface<T> path); //only one needed
 }
+
+//pg 1081
