@@ -1,31 +1,33 @@
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.PriorityQueue;
+import java.util.Map;
 
 //pg 1104
 
 public class DirectedGraph<T> implements GraphInterface<T> {
-    private DictionaryInterface<T, VertexInterface<T>> vertices;
+    private Map<T, VertexInterface<T>> vertices;
     private int edgeCount;
 
     public DirectedGraph()
     {
-        vertices = new LinkedDictionary<>();
+        vertices = new LinkedHashMap<>(); //Ask professor if this is fine, would make MapDictionary not needed
         edgeCount = 0;       
     }
 
-    @Override
     public boolean addVertex(T vertexLabel) 
     {
-        VertexInterface<T> addOutcome = vertices.add(vertexLabel, new Vertex<>(vertexLabel));
+        VertexInterface<T> addOutcome = vertices.put(vertexLabel, new Vertex<>(vertexLabel));
         return addOutcome == null;
     }
 
     public boolean addEdge(T begin, T end, double edgeWeight) 
     {
         boolean result = false;
-        VertexInterface<T> beginVertex = vertices.getValue(begin);
-        VertexInterface<T> endVertex = vertices.getValue(end);
+        VertexInterface<T> beginVertex = vertices.get(begin);
+        VertexInterface<T> endVertex = vertices.get(end);
         if((beginVertex != null) && (endVertex != null)) {
             result = beginVertex.connect(endVertex, edgeWeight);
         }
@@ -43,8 +45,8 @@ public class DirectedGraph<T> implements GraphInterface<T> {
     public boolean hasEdge(T begin, T end) 
     {
         boolean found = false;
-        VertexInterface<T> beginVertex = vertices.getValue(begin);
-        VertexInterface<T> endVertex = vertices.getValue(end);
+        VertexInterface<T> beginVertex = vertices.get(begin);
+        VertexInterface<T> endVertex = vertices.get(end);
         if((beginVertex != null) && (endVertex != null))
         {
             Iterator<VertexInterface<T>> neighbors = beginVertex.getNeighborIterator();
@@ -65,7 +67,7 @@ public class DirectedGraph<T> implements GraphInterface<T> {
 
     public int getNumberOfVertices() 
     {
-        return vertices.getSize();
+        return vertices.size();
     }
 
     public int getNumberOfEdges() 
@@ -81,7 +83,7 @@ public class DirectedGraph<T> implements GraphInterface<T> {
 
     protected void resetVertices()
     {
-        Iterator<VertexInterface<T>> vertexIterator = vertices.getValueIterator();
+        Iterator<VertexInterface<T>> vertexIterator = vertices.values().iterator();
         while(vertexIterator.hasNext())
         {
             VertexInterface<T> nextVertex = vertexIterator.next();
@@ -91,69 +93,122 @@ public class DirectedGraph<T> implements GraphInterface<T> {
         }
     }
 
-    public QueueInterface<T> getBreadthFirstTraversal(T origin) 
+    public Queue<T> getBreadthFirstTraversal(T origin) 
     {
         // Will not be implemented
         return null;
     }
 
-    @Override
-    public QueueInterface<T> getDepthFirstTraversal(T origin) {
-        // Will not be implemented
-        return null;
-    }
-
-    public StackInterface<T> getTopologicalOrder() 
+    public Queue<T> getDepthFirstTraversal(T origin) 
     {
         // Will not be implemented
         return null;
     }
 
-    public int getShortestPath(T begin, T end, StackInterface<T> path) 
+    public Stack<T> getTopologicalOrder() 
     {
+        // Will not be implemented
+        return null;
+    }
+
+    public int getShortestPath(T begin, T end, Stack<T> path) 
+    {
+        //Will not be implemented
+        return 0;
+    }
+
+    public double getCheapestPath(T begin, T end, Stack<T> path) {
         resetVertices();
         boolean done = false;
-        QueueInterface<VertexInterface<T>> vertexQueue = new Queue<>();
-        VertexInterface<T> originVertex = vertices.getValue(begin);
-        VertexInterface<T> endVertex = vertices.getValue(end);
-        originVertex.visit();
-        vertexQueue.enqueue(originVertex);
-        while(!done && !vertexQueue.isEmpty())
+        PriorityQueue<EntryPQ> priQueue = new PriorityQueue<>();
+
+        VertexInterface<T> originVertex = vertices.get(begin);
+        VertexInterface<T> endVertex = vertices.get(end);
+
+        priQueue.add(new EntryPQ(originVertex, 0, null));
+
+        while(!done && !priQueue.isEmpty())
         {
-            VertexInterface<T> frontVertex = vertexQueue.dequeue();
-            Iterator<VertexInterface<T>> neighbors = frontVertex.getNeighborIterator();
-            while(!done && neighbors.hasNext())
+            EntryPQ frontEntry = priQueue.remove();
+            VertexInterface<T> frontVertex = frontEntry.getVertex();
+
+            if(!frontVertex.isVisited())
             {
-                VertexInterface<T> nextNeighbor = neighbors.next();
-                if(!nextNeighbor.isVisited())
-                {
-                    nextNeighbor.visit();
-                    nextNeighbor.setCost(1 + frontVertex.getCost());
-                    nextNeighbor.setPredecessor(frontVertex);
-                    vertexQueue.enqueue(nextNeighbor);
-                }
-                if(nextNeighbor.equals(endVertex))
+                frontVertex.visit();
+                frontVertex.setCost(frontEntry.getCost());
+                frontVertex.setPredecessor(frontEntry.getPredecessor());
+
+                if(frontVertex.equals(endVertex)) {
                     done = true;
+                } else {
+                    Iterator<VertexInterface<T>> neighbors = frontVertex.getNeighborIterator();
+                    Iterator<Double> edgeWeights = frontVertex.getWeightIterator();
+                    while(neighbors.hasNext())
+                    {
+                        VertexInterface<T> nextNeighbor = neighbors.next();
+                        Double weightOfEdgeToNeighbor = edgeWeights.next();
+
+                        if(!nextNeighbor.isVisited())
+                        {
+                            double nextCost = weightOfEdgeToNeighbor + frontVertex.getCost();
+                            priQueue.add(new EntryPQ(nextNeighbor, nextCost, frontVertex));
+                        }
+                    }
+                }
             }
         }
-        int pathLength = (int)endVertex.getCost();
+        double pathCost = endVertex.getCost();
         path.push(endVertex.getLabel());
+
         VertexInterface<T> vertex = endVertex;
         while(vertex.hasPredecessor())
         {
             vertex = vertex.getPredecessor();
             path.push(vertex.getLabel());
         }
-        return pathLength;
-    }
-
-    //https://github.com/marat00/Java/blob/master/LabX/DirectedGraph.java
-    public double getCheapestPath(T begin, T end, StackInterface<T> path) {
-        boolean done = false;
-        PriorityQueue<T> priQueue = new PriorityQueue<>();
-        priQueue.add(new Entry(originVertex, 0, null));
         return pathCost;
     }
+
+    private class EntryPQ implements Comparable<EntryPQ>, java.io.Serializable
+	{
+		private VertexInterface<T> vertex; 	
+		private VertexInterface<T> previousVertex; 
+		private double cost; // cost to nextVertex
+		
+		private EntryPQ(VertexInterface<T> vertex, double cost, VertexInterface<T> previousVertex)
+		{
+			this.vertex = vertex;
+			this.previousVertex = previousVertex;
+			this.cost = cost;
+		} // end constructor
+		
+		public VertexInterface<T> getVertex()
+		{
+			return vertex;
+		} // end getVertex
+		
+		public VertexInterface<T> getPredecessor()
+		{
+			return previousVertex;
+		} // end getPredecessor
+
+		public double getCost()
+		{
+			return cost;
+		} // end getCost
+		
+		public int compareTo(EntryPQ otherEntry)
+		{
+			// using opposite of reality since our priority queue uses a maxHeap;
+			// could revise using a minheap
+			return (int)Math.signum(otherEntry.cost - cost);
+		} // end compareTo
+		
+		public String toString()
+		{
+			return vertex.toString() + " " + cost;
+		} // end toString 
+	} // end EntryPQ
 }
 
 //pg 1104

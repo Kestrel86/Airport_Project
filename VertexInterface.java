@@ -48,7 +48,7 @@ public interface VertexInterface<T> {
      * Creates an iterator of the weights of the edges to this vertex's neighbors.
      * @return An iterator of edge weights for edges to neighbors of this vertex.
      */
-    public Iterator<VertexInterface<T>> getWeightIterator();
+    public Iterator<Double> getWeightIterator();
 
     /**
      * Sees whether this vertex has at least one neighbor.

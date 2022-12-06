@@ -1,13 +1,16 @@
+import java.util.Stack; //ask teacher about this
+import java.util.Queue;
+
 public interface GraphAlgorithmsInterface<T> {
-    public QueueInterface<T> getBreadthFirstTraversal(T origin);
+    public Queue<T> getBreadthFirstTraversal(T origin);
 
-    public QueueInterface<T> getDepthFirstTraversal(T origin);
+    public Queue<T> getDepthFirstTraversal(T origin);
 
-    public StackInterface<T> getTopologicalOrder();
+    public Stack<T> getTopologicalOrder();
 
-    public int getShortestPath(T begin, T end, StackInterface<T> path);
+    public int getShortestPath(T begin, T end, Stack<T> path);
 
-    public double getCheapestPath(T begin, T end, StackInterface<T> path); //only one needed
+    public double getCheapestPath(T begin, T end, Stack<T> path); //only one needed
 }
 
 //pg 1081

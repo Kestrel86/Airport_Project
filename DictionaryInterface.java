@@ -50,6 +50,12 @@ public interface DictionaryInterface<K,V> {
     public Iterator<K> getKeyIterator();
 
     /**
+     * Creates an iterator that traverses all values in this dictionary.
+     * @return An iterator that provides sequential access to the values in this dictionary.
+     */
+    public Iterator<V> getValueIterator();
+
+    /**
      * Sees whether this dictionary is empty.
      * @return  True if the dictionary is empty
      */
