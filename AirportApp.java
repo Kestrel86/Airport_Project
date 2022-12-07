@@ -25,6 +25,13 @@ public class AirportApp {
         }
         scnr.close();
     }
+
+    private void display()
+    {
+        System.out.println("Airports v0.1 by A. Valdez");
+        System.out.println("");
+        System.out.println("Command?");
+    }
 }
 
 //make an airportInfo class
