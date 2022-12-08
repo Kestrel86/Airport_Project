@@ -108,12 +108,15 @@ public class AirportApp
 										dictionary.getValue(userInput[1]).toString() + " to "
 												+ dictionary.getValue(userInput[2]).toString()
 												+ " with a distance of " + distance + " added.");
-							} else
+							} else {
 								System.out.println("The connection already exist.");
-						} else
+                            }
+						} else {
 							System.out.println("Unknown Airport Code");
-					} else
+                        }
+					} else {
 						System.out.println("Insertion failed. Distance is less than 0.");
+                    }
 					break;
                     
                 case "R": //NOT WORKING
