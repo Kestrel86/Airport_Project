@@ -1,20 +1,21 @@
-public class AirportInfo {
-    private String label;
+public class AirportInfo
+{
+    private String code;
     private String city;
     private String name;
     private String state;
-
-    public AirportInfo(String newLabel, String newCity, String newName, String newState)
+    
+    public AirportInfo(String newCode, String newCity, String newName, String newState)
     {
-        label = newLabel;
+        code = newCode;
         city = newCity;
         name = newName;
         state = newState;
     }
 
-    public String getLabel()
+    public String getCode()
     {
-        return label;
+        return code;
     }
 
     public String getCity()
@@ -34,6 +35,6 @@ public class AirportInfo {
 
     public void printOut()
     {
-        System.out.println("");
+        System.out.println(getCode() + "+" + getCity() + "+" + getName() + "+" + getState());
     }
 }

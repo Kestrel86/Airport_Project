@@ -7,13 +7,15 @@ import java.util.Map;
 
 //pg 1104
 
-public class DirectedGraph<T> implements GraphInterface<T> {
+//Do we name this Digraph
+public class DirectedGraph<T> implements GraphInterface<T> 
+{
     private Map<T, VertexInterface<T>> vertices;
     private int edgeCount;
 
     public DirectedGraph()
     {
-        vertices = new LinkedHashMap<>(); //Ask professor if this is fine, would make MapDictionary not needed
+        vertices = new LinkedHashMap<>(); 
         edgeCount = 0;       
     }
 
@@ -96,25 +98,25 @@ public class DirectedGraph<T> implements GraphInterface<T> {
     public Queue<T> getBreadthFirstTraversal(T origin) 
     {
         // Will not be implemented
-        return null;
+        throw new RuntimeException("Method not fully implemented");    
     }
 
     public Queue<T> getDepthFirstTraversal(T origin) 
     {
         // Will not be implemented
-        return null;
+        throw new RuntimeException("Method not fully implemented");    
     }
 
     public Stack<T> getTopologicalOrder() 
     {
         // Will not be implemented
-        return null;
+        throw new RuntimeException("Method not fully implemented");    
     }
 
     public int getShortestPath(T begin, T end, Stack<T> path) 
     {
         //Will not be implemented
-        return 0;
+        throw new RuntimeException("Method not fully implemented");
     }
 
     public double getCheapestPath(T begin, T end, Stack<T> path) {
@@ -211,5 +213,3 @@ public class DirectedGraph<T> implements GraphInterface<T> {
 	} // end EntryPQ
 }
 
-//pg 1104
-//pg 1106

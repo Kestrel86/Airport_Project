@@ -97,7 +97,7 @@ public class Vertex<T> implements VertexInterface<T>
         return result;
     }
 
-    public boolean equals(Object other)
+    public boolean equals(Vertex<T> other) //TEST
     {
         boolean result;
         if((other == null) || (getClass() != other.getClass()))
