@@ -1,3 +1,13 @@
+//
+//  Name:   Valdez, Andrew
+//  Project:   Project #5
+//  Due:    12/9/22
+//  Course: CS-2400-02-f22
+//
+//  Description:
+//
+//
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Queue;
@@ -5,9 +15,7 @@ import java.util.Stack;
 import java.util.PriorityQueue;
 import java.util.Map;
 
-//pg 1104
 
-//Do we name this Digraph
 public class DirectedGraph<T> implements GraphInterface<T> 
 {
     private Map<T, VertexInterface<T>> vertices;

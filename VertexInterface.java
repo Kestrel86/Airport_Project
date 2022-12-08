@@ -1,3 +1,13 @@
+//
+//  Name:   Valdez, Andrew
+//  Project:   Project #5
+//  Due:    12/9/22
+//  Course: CS-2400-02-f22
+//
+//  Description:
+//  An interface of methods providing basic vertex operations for the creation of a vertex.
+//
+
 import java.util.Iterator;
 
 public interface VertexInterface<T> {

@@ -1,17 +1,15 @@
 //
 //  Name:   Valdez, Andrew
-//  Homework:   Homework #1
-//  Due:    12/12/22
+//  Project:   Project #5
+//  Due:    12/9/22
 //  Course: CS-2400-02-f22
 //
 //  Description:
-//  DictionaryInterface is the ADT set that holds methods that will be defined and used
+//  An interface for a dictionary with distinct search keys. Search keys and associated values are not null.
+//
 
 import java.util.Iterator;
 
-/**
- * An interface for a dictionary with distinct search keys. Search keys and associated values are not null.
- */
 public interface DictionaryInterface<K,V> {
 
     /**

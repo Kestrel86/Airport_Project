@@ -1,3 +1,13 @@
+//
+//  Name:   Valdez, Andrew
+//  Project:   Project #5
+//  Due:    12/9/22
+//  Course: CS-2400-02-f22
+//
+//  Description:
+//
+//
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.List;
@@ -11,6 +21,10 @@ public class Vertex<T> implements VertexInterface<T>
     private VertexInterface<T> previousVertex; //On path to this vertex
     private double cost; //Of path to this vertex
 
+    /**
+     * 
+     * @param vertexLabel
+     */
     public Vertex(T vertexLabel)
     {
         label = vertexLabel;

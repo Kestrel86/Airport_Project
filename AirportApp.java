@@ -1,15 +1,26 @@
+//
+//  Name:   Valdez, Andrew
+//  Project:   Project #5
+//  Due:    12/9/22
+//  Course: CS-2400-02-f22
+//
+//  Description:
+//  Acts as an app that uses a user interface to display available commands and information to the user.
+//  Designed to accept user input and output information based on what is inputted.
+//  Tests the methods created in the Directed Graph.  
+//
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.EmptyStackException;
 import java.util.Scanner;
 import java.util.Stack;
 
-//Ask professor about Directed Graph name
+//Ask professor about Directed Graph name as well as other command conditions and output
 
 public class AirportApp 
 {
     public static void main(String[] args) 
-    { //Would this FileNotFoundException work?
+    { 
         File airFile = new File("./airports.csv");
         File distFile = new File("./distances.csv");
         Scanner scnr = new Scanner(System.in);
@@ -121,7 +132,7 @@ public class AirportApp
                     }
 					break;
                     
-                case "R": //NOT WORKING
+                case "R": 
                     if(dictionary.getValue(userInput[1]) != null && dictionary.getValue(userInput[2]) != null) 
                     { //check dictionary for value from userInput
                         if(diGraph.hasEdge(userInput[1], userInput[2])) 
