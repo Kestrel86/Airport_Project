@@ -28,13 +28,22 @@ public class DirectedGraph<T> implements GraphInterface<T>
     public boolean addEdge(T begin, T end, double edgeWeight) 
     {
         boolean result = false;
+        boolean remove = false;
         VertexInterface<T> beginVertex = vertices.get(begin);
         VertexInterface<T> endVertex = vertices.get(end);
         if((beginVertex != null) && (endVertex != null)) {
-            result = beginVertex.connect(endVertex, edgeWeight);
+            if(edgeWeight == 0)
+            {
+                remove = beginVertex.connect(endVertex, edgeWeight);
+            } else {
+                result = beginVertex.connect(endVertex, edgeWeight);
+            }
         }
         if(result) {
             edgeCount++;
+        } else if(remove) {
+            edgeCount--;
+            return remove;
         }
         return result;
     }

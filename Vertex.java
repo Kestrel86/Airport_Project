@@ -51,16 +51,24 @@ public class Vertex<T> implements VertexInterface<T>
     public boolean connect(VertexInterface<T> endVertex, double edgeWeight)
     {
         boolean result = false;
+
         if(!this.equals(endVertex))
         {
             Iterator<VertexInterface<T>> neighbors = getNeighborIterator();
             boolean duplicateEdge = false;
+
+            if(edgeWeight == 0)
+            {
+                return removeEdge(endVertex);
+            }
+
             while(!duplicateEdge && neighbors.hasNext())
             {
                 VertexInterface<T> nextNeighbor = neighbors.next();
                 if(endVertex.equals(nextNeighbor))
                     duplicateEdge = true;
             }
+
             if(!duplicateEdge)
             {
                 edgeList.add(new Edge(endVertex, edgeWeight)); 
@@ -69,9 +77,31 @@ public class Vertex<T> implements VertexInterface<T>
         }
         return result;
     }
+
     public boolean connect(VertexInterface<T> endVertex)
     {
         return connect(endVertex, 0);
+    }
+
+    private boolean removeEdge(VertexInterface<T> endVertex)
+    {
+        boolean result = false;
+        
+        Iterator<VertexInterface<T>> neighbors = getNeighborIterator();
+        int num = 0;
+        while(neighbors.hasNext())
+        {
+            if(neighbors.next().equals(endVertex)) 
+            {
+                edgeList.remove(num);
+                endVertex.setCost(0);
+                setCost(0);
+                result = true;
+                break;
+            }
+            num++;
+        }
+        return result;
     }
 
     public Iterator<VertexInterface<T>> getNeighborIterator()

@@ -18,7 +18,6 @@ public class AirportApp
         String[] userInput;
 
         System.out.println("Airports v0.1 by A. Valdez");
-        System.out.println("");
 
         try {
             Scanner airportScnr = new Scanner(airFile);
@@ -54,12 +53,13 @@ public class AirportApp
                 case "H":
                     displayMenu();
                     break;
+
                 case "Q":
                     for(int i = 1; i < userInput.length; i++)
                     {
                         if(dictionary.getValue(userInput[i]) == null)
                         {
-                            System.out.println("Airport code unknown");
+                            System.out.println("Unknown Airport Code");
                             continue;
                         } else {
                             System.out.print(userInput[i] + " - ");
@@ -68,6 +68,7 @@ public class AirportApp
                         }
                     }
                     break;
+
                 case "D": 
                     if(!(dictionary.getValue(userInput[1]) == null) && !(dictionary.getValue(userInput[2]) == null))
                     {
@@ -75,7 +76,7 @@ public class AirportApp
                         double cheapestPath = diGraph.getCheapestPath(userInput[1], userInput[2], stack);
                         if(cheapestPath == 0)
                         {
-                            System.out.println("Airports not connected");
+                            System.out.println("Airports Are not Connected");
                         } else {
                             System.out.println(dictionary.getValue(userInput[1]).toString() + " to " + dictionary.getValue(userInput[2]).toString() + " is " + cheapestPath + " through the route:");
                             while(!stack.isEmpty())
@@ -85,13 +86,14 @@ public class AirportApp
                             }
                         }
                     } else {
-                        System.out.println("Airport code unknown");
+                        System.out.println("Unknown Airport Code");
                     }
                     break;
+
                 case "I": 
-                    double distance;
+                    int distance;
                     try {
-                        distance = Double.parseDouble(userInput[3]);
+                        distance = Integer.parseInt(userInput[3]);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         distance = -1;
                     } catch (NumberFormatException e) {
@@ -100,8 +102,8 @@ public class AirportApp
 
                     if (distance > 0) {
 						if (dictionary.getValue(userInput[1]) != null && dictionary.getValue(userInput[2]) != null) {
-							// Returns true if there isnt already a connection
-							boolean result = diGraph.addEdge(userInput[1], userInput[2], distance);
+                            //Check if user inputted values then execute
+							boolean result = diGraph.addEdge(userInput[1], userInput[2], distance); //Return true if the new edge is created, false if already existing
 
 							if (result == true) {
 								System.out.println(
@@ -115,34 +117,35 @@ public class AirportApp
 							System.out.println("Unknown Airport Code");
                         }
 					} else {
-						System.out.println("Insertion failed. Distance is less than 0.");
+						System.out.println("Failed: Distance is less than 0.");
                     }
 					break;
                     
                 case "R": //NOT WORKING
-                    if(dictionary.getValue(userInput[1]) != null && dictionary.getValue(userInput[2]) != null)
-                    {
+                    if(dictionary.getValue(userInput[1]) != null && dictionary.getValue(userInput[2]) != null) 
+                    { //check dictionary for value from userInput
                         if(diGraph.hasEdge(userInput[1], userInput[2])) 
-                        {
-                            boolean result = diGraph.addEdge(userInput[1], userInput[2]);
+                        {//Check if edge exists to be deleted
+                            boolean result = diGraph.addEdge(userInput[1], userInput[2]); //probable cause
                             if(result == true) 
                             {
                                 System.out.println(dictionary.getValue(userInput[1]).toString() + " and " + dictionary.getValue(userInput[2]).toString() + " removed.");
                             }
                         } else {
-                            System.out.println("Airports aren't connected");
+                            System.out.println("Airports Are Not Connected");
                         }
                     } else {
                         System.out.println("Unknown Airport Code");
                     }
                     break;
+
                 case "E":
                     break;
+
                 default:
                     System.out.println("");
                     System.out.println("Invalid Command");
-                    System.out.println("");
-                    displayMenu();
+                    System.out.println("For Command List, Type: H");
                     break;
             }
         } while(!userInput[0].equals("E"));
@@ -151,7 +154,7 @@ public class AirportApp
 
     private static void displayMenu()
     {
-        System.out.println("H Print Menu");
+        //System.out.println("H Print Menu");
         System.out.println("Q Query the airport information by entering the airport code.");
         System.out.println("D Find the minimum distance between two aiports.");
         System.out.println("I Insert a connection between two airports.");
