@@ -38,7 +38,7 @@ public class MapDictionary<K,V> implements DictionaryInterface<K, V>{
     }
 
     public Iterator<V> getValueIterator() {
-        return hm.values().iterator(); //test this
+        return hm.values().iterator(); 
     }
 
     public boolean isEmpty() {

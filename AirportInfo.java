@@ -4,6 +4,15 @@ public class AirportInfo
     private String city;
     private String name;
     private String state;
+
+    public AirportInfo(String line)
+    {
+        String[] str = line.split(",");
+        code = str[0];
+        city = str[1];
+        name = str[2];
+        state = str[3];
+    }
     
     public AirportInfo(String newCode, String newCity, String newName, String newState)
     {
@@ -33,8 +42,8 @@ public class AirportInfo
         return state;
     }
 
-    public void printOut()
+    public String toString()
     {
-        System.out.println(getCode() + "+" + getCity() + "+" + getName() + "+" + getState());
+        return getCity() + " " + getName() + " " + getState();
     }
 }

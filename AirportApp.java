@@ -1,100 +1,158 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.EmptyStackException;
 import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.Stack;
 
-//linkedlist or adjacency matrix
-
-//Choose adjacency Matrix //to store distances
-
-//do we turn airports into a constructor class and turn distances into the adjacency matrix?
-
-//we use the adjacency matrix or list to state which airports are connected to each other and store the distances between airports
-
-//What I dont understand:
-/*
- * Cant figure out the adjacency matrix and how to use it
- * how does it correlate to the diGraph
- */
+//Ask professor about Directed Graph name
 
 public class AirportApp 
 {
-    //private static int[][] adjMatrix;
-    public static void main(String[] args) throws FileNotFoundException
-    {
-        int numberOfAirports = 0; //keep number of airports
-
-        //Record number of airports first when going through airports
+    public static void main(String[] args) 
+    { //Would this FileNotFoundException work?
+        File airFile = new File("./airports.csv");
+        File distFile = new File("./distances.csv");
+        Scanner scnr = new Scanner(System.in);
+        DictionaryInterface<String, AirportInfo> dictionary = new MapDictionary<>();
         GraphInterface<String> diGraph = new DirectedGraph<>();
-        AirportInfo airInfo = new AirportInfo(null, null, null, null);
-        ArrayList<AirportInfo> airport = new ArrayList<>();
+        String[] userInput;
 
-        //add vertex from airport info from digraph
-        File airports = new File("airports.csv");
-        File distance = new File("distances.csv");
+        System.out.println("Airports v0.1 by A. Valdez");
+        System.out.println("");
 
-        //read whole and do a split with comma
-        Scanner scnr = new Scanner(airports);
-        while(scnr.hasNextLine())
-        {
-            String str = scnr.nextLine();
-            String[] tokens = str.split(","); 
-            airInfo = new AirportInfo(tokens[0], tokens[1], tokens[2], tokens[3]);
-            airport.add(airInfo); //maybe grab from here
-            diGraph.addVertex(airInfo); //Not applicable
-            numberOfAirports++;
+        try {
+            Scanner airportScnr = new Scanner(airFile);
+            Scanner distanceScnr = new Scanner(distFile);
+
+            while(airportScnr.hasNextLine())
+            {
+                AirportInfo airport = new AirportInfo(airportScnr.nextLine());
+                dictionary.add(airport.getCode(), airport); //create dictionary to store the values based on airport code
+                diGraph.addVertex(airport.getCode()); //grabs code from aiport data structure
+            }
+            
+            while(distanceScnr.hasNextLine())
+            {
+                String[] str = distanceScnr.nextLine().split(",");
+                diGraph.addEdge(str[0], str[1], Double.parseDouble(str[2]));
+            }
+
+            airportScnr.close();
+            distanceScnr.close();
+
+        } catch(FileNotFoundException e) {
+            System.out.println("File not Found");
         }
+        
+        do {
+            System.out.println("");
+            System.out.print("Command? ");
+            userInput = scnr.nextLine().toUpperCase().split(" ");
+
+            switch(userInput[0])
+            {
+                case "H":
+                    displayMenu();
+                    break;
+                case "Q":
+                    for(int i = 1; i < userInput.length; i++)
+                    {
+                        if(dictionary.getValue(userInput[i]) == null)
+                        {
+                            System.out.println("Airport code unknown");
+                            continue;
+                        } else {
+                            System.out.print(userInput[i] + " - ");
+                            AirportInfo airInfo = dictionary.getValue(userInput[i]);
+                            System.out.println(airInfo.toString());
+                        }
+                    }
+                    break;
+                case "D": 
+                    if(!(dictionary.getValue(userInput[1]) == null) && !(dictionary.getValue(userInput[2]) == null))
+                    {
+                        Stack<String> stack = new Stack<>();
+                        double cheapestPath = diGraph.getCheapestPath(userInput[1], userInput[2], stack);
+                        if(cheapestPath == 0)
+                        {
+                            System.out.println("Airports not connected");
+                        } else {
+                            System.out.println(dictionary.getValue(userInput[1]).toString() + " to " + dictionary.getValue(userInput[2]).toString() + " is " + cheapestPath + " through the route:");
+                            while(!stack.isEmpty())
+                            {
+                                AirportInfo startPt = dictionary.getValue(stack.pop());
+                                System.out.println(startPt.getCode() + " - " + startPt.toString());
+                            }
+                        }
+                    } else {
+                        System.out.println("Airport code unknown");
+                    }
+                    break;
+                case "I": 
+                    double distance;
+                    try {
+                        distance = Double.parseDouble(userInput[3]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        distance = -1;
+                    } catch (NumberFormatException e) {
+                        distance = -1;
+                    }
+
+                    if (distance > 0) {
+						if (dictionary.getValue(userInput[1]) != null && dictionary.getValue(userInput[2]) != null) {
+							// Returns true if there isnt already a connection
+							boolean result = diGraph.addEdge(userInput[1], userInput[2], distance);
+
+							if (result == true) {
+								System.out.println(
+										dictionary.getValue(userInput[1]).toString() + " to "
+												+ dictionary.getValue(userInput[2]).toString()
+												+ " with a distance of " + distance + " added.");
+							} else
+								System.out.println("The connection already exist.");
+						} else
+							System.out.println("Unknown Airport Code");
+					} else
+						System.out.println("Insertion failed. Distance is less than 0.");
+					break;
+                    
+                case "R": //NOT WORKING
+                    if(dictionary.getValue(userInput[1]) != null && dictionary.getValue(userInput[2]) != null)
+                    {
+                        if(diGraph.hasEdge(userInput[1], userInput[2])) 
+                        {
+                            boolean result = diGraph.addEdge(userInput[1], userInput[2]);
+                            if(result == true) 
+                            {
+                                System.out.println(dictionary.getValue(userInput[1]).toString() + " and " + dictionary.getValue(userInput[2]).toString() + " removed.");
+                            }
+                        } else {
+                            System.out.println("Airports aren't connected");
+                        }
+                    } else {
+                        System.out.println("Unknown Airport Code");
+                    }
+                    break;
+                case "E":
+                    break;
+                default:
+                    System.out.println("");
+                    System.out.println("Invalid Command");
+                    System.out.println("");
+                    displayMenu();
+                    break;
+            }
+        } while(!userInput[0].equals("E"));
         scnr.close();
+    }   
 
-        ArrayList<ArrayList<Integer>> arrList = new ArrayList<>();
-
-        for(int i = 0; i < numberOfAirports; i++)
-        {
-            arrList.add(new ArrayList<Integer>());
-        }
-
-        scnr = new Scanner(distance);
-        while(scnr.hasNextLine())
-        {
-            String str = scnr.nextLine();
-            String[] tokens = str.split(","); 
-        }
-        scnr.close();
-
-
-        //use distances to add edge and possibly use adjacency matrix
-        //Store which airports are connected to each other and distance
-    }
-
-    public void display() 
+    private static void displayMenu()
     {
-        //Will print the Main Menu
+        System.out.println("H Print Menu");
+        System.out.println("Q Query the airport information by entering the airport code.");
+        System.out.println("D Find the minimum distance between two aiports.");
+        System.out.println("I Insert a connection between two airports.");
+		System.out.println("R Remove a connection between two airports.");
+		System.out.println("E Exit.");
     }
-
-    public static void addEdge(ArrayList<ArrayList<Integer>> arrList, int s, int d)
-    {
-        arrList.get(s).add(d);
-        arrList.get(d).add(s);
-    }
-
-    /* 
-    public static void graph(int num)
-    {
-        adjMatrix = new int[num][num];
-    }
-
-    // Add edges
-    public void addEdge(int i, int j, int dist) {
-        adjMatrix[i][j] = dist;
-        adjMatrix[j][i] = dist;
-    }
-
-    // Remove edges
-    public void removeEdge(int i, int j) {
-        adjMatrix[i][j] = 0;
-        adjMatrix[j][i] = 0;
-    }
-    */
 }
-
-//https://github.com/orestespap/airport-network-java-graphs

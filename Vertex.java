@@ -63,7 +63,7 @@ public class Vertex<T> implements VertexInterface<T>
             }
             if(!duplicateEdge)
             {
-                edgeList.add(new Edge(endVertex, edgeWeight)); //TEST
+                edgeList.add(new Edge(endVertex, edgeWeight)); 
                 result = true;
             }
         }
@@ -203,12 +203,14 @@ public class Vertex<T> implements VertexInterface<T>
     {
         this.previousVertex = predecessor;
     }
-    @Override
-    public VertexInterface<T> getPredecessor() {
+    
+    public VertexInterface<T> getPredecessor() 
+    {
         return this.previousVertex;
     }
-    @Override
-    public boolean hasPredecessor() {
+
+    public boolean hasPredecessor() 
+    {
         return this.previousVertex != null;
     }
 
