@@ -84,7 +84,7 @@ public class AirportApp
                     if(!(dictionary.getValue(userInput[1]) == null) && !(dictionary.getValue(userInput[2]) == null))
                     {
                         Stack<String> stack = new Stack<>();
-                        double cheapestPath = diGraph.getCheapestPath(userInput[1], userInput[2], stack);
+                        int cheapestPath = (int)diGraph.getCheapestPath(userInput[1], userInput[2], stack);
                         if(cheapestPath == 0)
                         {
                             System.out.println("Airports Are not Connected");

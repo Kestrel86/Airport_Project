@@ -5,7 +5,8 @@
 //  Course: CS-2400-02-f22
 //
 //  Description:
-//
+//  Designed to define all methods in the VertexInterface.
+//  Creates a vertex that will be able to use the methods defined in this file.
 //
 
 import java.util.Iterator;
@@ -22,8 +23,8 @@ public class Vertex<T> implements VertexInterface<T>
     private double cost; //Of path to this vertex
 
     /**
-     * 
-     * @param vertexLabel
+     * Initializes the root vertex and edgeList
+     * @param vertexLabel Determines the label assigned to the Vertex
      */
     public Vertex(T vertexLabel)
     {

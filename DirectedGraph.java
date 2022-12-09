@@ -5,7 +5,8 @@
 //  Course: CS-2400-02-f22
 //
 //  Description:
-//
+//  Designed to define all methods in the Graph Interface. 
+//  Creates a directed graph that will be able to use the methods defined in this file.
 //
 
 import java.util.Iterator;
