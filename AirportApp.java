@@ -21,8 +21,8 @@ public class AirportApp
     { 
         //DECLARING VALUES
 
-        File airFile = new File("./airports.csv");
-        File distFile = new File("./distances.csv");
+        File airFile = new File("airports.csv");
+        File distFile = new File("distances.csv");
         Scanner scnr = new Scanner(System.in);
         DictionaryInterface<String, AirportInfo> dictionary = new MapDictionary<>();
         GraphInterface<String> diGraph = new DirectedGraph<>();

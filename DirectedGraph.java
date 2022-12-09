@@ -22,6 +22,9 @@ public class DirectedGraph<T> implements GraphInterface<T>
     private Map<T, VertexInterface<T>> vertices;
     private int edgeCount;
 
+    /**
+     * Initializes vertices and edgeCount, creating Graph
+     */
     public DirectedGraph()
     {
         vertices = new LinkedHashMap<>(); 
