@@ -29,34 +29,53 @@ public class AirportInfo
     }
     
     /**
-     * 
-     * @return
+     * Retrieves the value associated to the code variable
+     * @return The value associated to the code variable.
      */
     public String getCode()
     {
         return code;
     }
 
+    /**
+     * Retrieves the value associated to city variable
+     * @return The value associated to the city variable.
+     */
     public String getCity()
     {
         return city;
     }
 
+    /**
+     * Retrieves the value associated to name variable
+     * @return The value associated to the name variable.
+     */
     public String getName()
     {
         return name;
     }
 
+    /**
+     * Retrieves the value associated to state variable
+     * @return The value associated to the state variable.
+     */
     public String getState()
     {
         return state;
     }
 
+    /**
+     * Retrieves the values of the variables and returns as a combined String
+     * @return the combined String of the called variables
+     */
     public String toString()
     {
         return getCity() + " " + getName() + " " + getState();
     }
 
+    /**
+     * Prints to the terminal each variable's value
+     */
     public void printOut()
     {
         System.out.println(getCode() + " - " + getCity() + " " + getName() + " " + getState());

@@ -26,7 +26,6 @@ public class AirportApp
         Scanner scnr = new Scanner(System.in);
         DictionaryInterface<String, AirportInfo> dictionary = new MapDictionary<>();
         GraphInterface<String> diGraph = new DirectedGraph<>();
-        String[] userInput;
 
         System.out.println("Airports v0.1 by A. Valdez");
 
@@ -55,22 +54,26 @@ public class AirportApp
 
         System.out.println("");
         System.out.print("Command? ");
-        userInput = scnr.nextLine().toUpperCase().split(" ");
+        String[] userInput = scnr.nextLine().toUpperCase().split(" ");
 
         while(!userInput[0].equals("E")) 
         {
             switch(userInput[0])
             {
                 case "H":
-                    displayMenu();
+                    System.out.println("Q Query the airport information by entering the airport code.");
+                    System.out.println("D Find the minimum distance between two aiports.");
+                    System.out.println("I Insert a connection between two airports.");
+                    System.out.println("R Remove a connection between two airports.");
+                    System.out.println("E Exit.");
                     break;
 
-                case "Q":
+                case "Q": 
                     for(int i = 1; i < userInput.length; i++)
                     {
                         if(dictionary.getValue(userInput[i]) == null)
                         {
-                            System.out.println("Unknown Airport Code");
+                            System.out.println(userInput[i] + " - unknown");
                             continue;
                         } else {
                             AirportInfo airInfo = dictionary.getValue(userInput[i]);
@@ -93,10 +96,10 @@ public class AirportApp
                                 airInfo.printOut();
                             }
                         } else {
-                            System.out.println("Airports Not Connected");
+                            System.out.println("Airports not connected");
                         }
                     } else {
-                        System.out.println("Unknown Airport Code");
+                        System.out.println("Airport code unknown");
                     }
                     break;
 
@@ -118,7 +121,7 @@ public class AirportApp
                                 System.out.println("Connection already exists.");
                             }
                         } else {
-                            System.out.println("Unknown Airport Code");
+                            System.out.println("Airport code unknown");
                         }
                     } else {
                         System.out.println("Failed: Distance is less than or equal to 0.");
@@ -136,10 +139,10 @@ public class AirportApp
                                 System.out.println(dictionary.getValue(userInput[1]).toString() + " and " + dictionary.getValue(userInput[2]).toString() + " removed.");
                             }
                         } else {
-                            System.out.println("Airports Not Connected");
+                            System.out.println("Airports not connected");
                         }
                     } else {
-                        System.out.println("Unknown Airport Code");
+                        System.out.println("Airport code unknown");
                     }
                     break;
 
@@ -158,13 +161,4 @@ public class AirportApp
         }
         scnr.close();
     }   
-
-    private static void displayMenu()
-    {
-        System.out.println("Q Query the airport information by entering the airport code.");
-        System.out.println("D Find the minimum distance between two aiports.");
-        System.out.println("I Insert a connection between two airports.");
-		System.out.println("R Remove a connection between two airports.");
-		System.out.println("E Exit.");
-    }
 }
