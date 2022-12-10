@@ -222,9 +222,7 @@ public class DirectedGraph<T> implements GraphInterface<T>
 		
 		public int compareTo(EntryPQ otherEntry)
 		{
-			// using opposite of reality since our priority queue uses a maxHeap;
-			// could revise using a minheap
-			return (int)Math.signum(otherEntry.cost - cost);
+			return Double.compare(cost, otherEntry.cost);
 		} // end compareTo
 		
 		public String toString()
