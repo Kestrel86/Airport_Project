@@ -83,29 +83,41 @@ public class AirportApp
                     break;
 
                 case "D": 
-                    if(!(dictionary.getValue(userInput[1]) == null) && !(dictionary.getValue(userInput[2]) == null))
-                    {
-                        Stack<String> stack = new Stack<>();
-                        int cheapestPath = (int)diGraph.getCheapestPath(userInput[1], userInput[2], stack);
-                        if(cheapestPath != 0)
+                    try{
+                        if(!(dictionary.getValue(userInput[1]) == null) && !(dictionary.getValue(userInput[2]) == null))
                         {
-                            System.out.println(dictionary.getValue(userInput[1]).toString() + " to " + dictionary.getValue(userInput[2]).toString() + " is " + cheapestPath + " through the route:");
-                            while(!stack.isEmpty())
+                            Stack<String> stack = new Stack<>();
+                            int cheapestPath = (int)diGraph.getCheapestPath(userInput[1], userInput[2], stack);
+                            if(cheapestPath != 0)
                             {
-                                AirportInfo airInfo = dictionary.getValue(stack.pop());
-                                airInfo.printOut();
+                                System.out.println(dictionary.getValue(userInput[1]).toString() + " to " + dictionary.getValue(userInput[2]).toString() + " is " + cheapestPath + " through the route:");
+                                while(!stack.isEmpty())
+                                {
+                                    AirportInfo airInfo = dictionary.getValue(stack.pop());
+                                    airInfo.printOut();
+                                }
+                            } else {
+                                System.out.println("Airports not connected");
                             }
                         } else {
-                            System.out.println("Airports not connected");
+                            System.out.println("Airport code unknown");
                         }
-                    } else {
-                        System.out.println("Airport code unknown");
+                        break;
+                    } catch (ArrayIndexOutOfBoundsException e){
+                        System.out.println("ERROR: Input Incomplete");
+                        break;
                     }
-                    break;
 
                 case "I": 
                     int distance = 0;
-                    distance = Integer.parseInt(userInput[3]);
+
+                    try {
+                        distance = Integer.parseInt(userInput[3]);
+                    } catch (ArrayIndexOutOfBoundsException e){
+                        distance = -1;
+                    } catch (NumberFormatException e) {
+                        distance = -1;
+                    }
 
                     if (distance > 0) {
                         if (dictionary.getValue(userInput[1]) != null && dictionary.getValue(userInput[2]) != null) {
